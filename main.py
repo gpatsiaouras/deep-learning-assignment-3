@@ -63,8 +63,8 @@ if __name__ == "__main__":
 
     # Experiment with less features
     temperature_index = 0
-    dataset = np.delete(dataset, np.s_[0, 1, 3, 4], axis=2)
-    dataset = np.delete(dataset, np.s_[0, 1, 2], axis=1)
+    dataset = np.delete(dataset, np.s_[0, 1, 3, 4], axis=2) # Delete features
+    dataset = np.delete(dataset, np.s_[0, 1, 2], axis=1) # Delete cities
 
     # Plot dataset per feature, all cities
     # plot_cities()
@@ -88,6 +88,8 @@ if __name__ == "__main__":
     n_steps = window_size
     n_cities = dataset.shape[1]
     n_features = dataset.shape[2]
+    kernel_size = 1
+    pool_size = 1
     epochs = 1
 
     model = None
@@ -95,8 +97,8 @@ if __name__ == "__main__":
         model = load_model('saved_models/saved_model_epochs_' + str(epochs))
     else:
         model = Sequential()
-        model.add(Conv2D(filters=64, kernel_size=2, activation='relu', input_shape=(n_steps, n_cities, n_features)))
-        model.add(MaxPooling2D(pool_size=2))
+        model.add(Conv2D(filters=64, kernel_size=kernel_size, activation='relu', input_shape=(n_steps, n_cities, n_features)))
+        model.add(MaxPooling2D(pool_size=pool_size))
         model.add(Flatten())
         model.add(Dense(50, activation='relu'))
         model.add(Dense(1))
